@@ -26,6 +26,7 @@ Power failure must not equal accountability failure.
 P.IS treats power instability as a state transition event that must be cryptographically recorded and verifiable, not as an excuse for missing evidence.
 
 # System Scope
+
 P.IS monitors and attests to four critical system state domains:
 Power State
 Normal operation
@@ -47,6 +48,7 @@ Critical parameter changes
 Each state transition is recorded as an immutable event.
 
 # High-Level Architecture
+
 P.IS is designed as an out-of-band accountability module:
 Operates independently from the primary system
 Maintains power via auxiliary sources (battery/supercapacitor)
@@ -105,10 +107,9 @@ Formal truth tables for invariants
 Embedded firmware reference model
 Secure key provisioning design.
 
-Author
-Sandile Mabiba
-Independent System Designer
-Focus areas: Computer Science, Security Systems, Accountability Architecture
+# Author
+Sandile Mabiba,Independent System Designer.
+# Focus areas: Computer Science, Security Systems, Accountability Architecture
 
 # Code Snippets 
 
