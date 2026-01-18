@@ -234,3 +234,122 @@ Hash
 Signature
 If one byte changes → signature fails.
 This is chain-of-custody inside a microcontroller.
+
+# State Engine (Testable)
+
+struct SystemState {
+    PowerState power;
+    AuthState auth;
+    DataState data;
+    ConfigState config;
+    PhysicalState physical;
+};
+
+bool invariantViolation(const SystemState& s, const char* &reason) {
+
+    if (s.power == POWER_OFF && s.auth != LOCKED) {
+        reason = "AUTH_UNLOCKED_DURING_POWER_OFF";
+        return true;
+    }
+
+    if (s.power == POWER_OFF && s.data != CONSISTENT) {
+        reason = "DATA_MODIFIED_DURING_POWER_OFF";
+        return true;
+    }
+
+    if (s.physical == BREACHED) {
+        reason = "PHYSICAL_BREACH";
+        return true;
+    }
+
+    if (s.config == MODIFIED && s.power != POWER_ON) {
+        reason = "CONFIG_CHANGED_WITHOUT_POWER";
+        return true;
+    }
+Production trick:
+Pre-allocate log blocks
+Use monotonic counter
+Never reuse an index
+
+# Booted Rules(Critical Layer)
+
+
+Step 1: Factory / Admin Mode
+Special GPIO held at boot
+Or one-time UART command
+Only allowed once
+void bootCheck() {
+    if (!verifyLastLog()) {
+        triggerPermanentFault("LOG_TAMPER_DETECTED");
+    }
+}
+On boot:
+Read last log entry
+Verify signature
+If verification fails → permanent violation flag
+
+# Provisional flow
+
+bool provisioningMode() {
+    return digitalRead(PROVISION_PIN) == HIGH;
+}
+
+    return false;
+}
+This function can be:
+Unit tested
+Formally reviewed
+Explained to non-engineers
+
+Step 2: Key Generation
+
+void generateDeviceKeypair() {
+    // Use hardware RNG
+    // Generate ECDSA P-256 keypair
+    // Store private key in secure storage
+}
+
+Private key:
+Stored encrypted
+Readable only by firmware
+Never printed
+Never logged
+
+Step 3: Public Key Export
+
+void outputPublicKey() {
+    // Output once over UART / BLE / USB
+    // Admin records it externally
+}
+This is the birth certificate of the device.
+
+Step 4: Seal Device
+
+void lockProvisioning() {
+    writeOnceFlag(PROVISIONED);
+}
+After this:
+Provision pin ignored
+UART provisioning commands rejected
+Any attempt logged as violation
+
+# Runtime Signing
+
+From this point on:
+
+hash(event)
+sign(hash, device_private_key)
+append_log()
+
+If someone asks:
+“How do we know this log came from that device?”
+Answer: “Verify the signature with the registered public key.”
+
+# Evidence Engine(No Deletes)
+
+void recordEvent(const SystemState& s, const char* msg, bool violation) {
+    // Serialize state
+    // Hash
+    // Sign
+    // Append to FRAM / flash
+}
