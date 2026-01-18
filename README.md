@@ -58,6 +58,7 @@ P.IS does not control systems.
 It observes, attests, and proves.
 
 # Operational Model
+
 System operates normally
 P.IS continuously snapshots defined invariants
 Power instability detected
@@ -114,6 +115,7 @@ Sandile Mabiba,Independent System Designer.
 # Code Snippets 
 
 # ESP32 Firmware (Core, Minimal, Serious)
+
 Target assumptions:
 ESP32
 External RTC optional (ESP32 RTC is enough initially)
@@ -296,6 +298,7 @@ bool provisioningMode() {
 
     return false;
 }
+
 This function can be:
 Unit tested
 Formally reviewed
