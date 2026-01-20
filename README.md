@@ -28,52 +28,39 @@ P.IS treats power instability as a state transition event that must be cryptogra
 # System Scope
 
 P.IS monitors and attests to four critical system state domains:
-Power State
-Normal operation
-Brownout
-Outage
-Recovery
-Authentication State
-Active sessions
-Privilege levels
-Login/logout transitions
-Data Integrity State
-Hashes of protected datasets
-Write operations in progress
-Integrity before/after outage
-Configuration State
-Security configuration snapshots
-Firmware/software integrity
-Critical parameter changes
-Each state transition is recorded as an immutable event.
+1. Power State - 
+Normal operation, Brownout, Outage Recovery
+2. Authentication State - Active sessions, Privilege levels, Login/logout transitions
+3. Data Integrity State - Hashes of protected datasets. Write operations in progress, integrity before/after outage.
+4. Configuration State - Security configuration snapshots, firmware/software integrity, critical parameter changes. Each state transition is recorded as an immutable event.
 
 # High-Level Architecture
 
 P.IS is designed as an out-of-band accountability module:
-Operates independently from the primary system
-Maintains power via auxiliary sources (battery/supercapacitor)
-Records cryptographically signed state transitions
-Emits events to secure audit pipelines (e.g. NFDAS)
+Operates independently from the primary system.
+Maintains power via auxiliary sources (battery/supercapacitor).
+Records cryptographically signed state transitions.
+Emits events to secure audit pipelines (e.g. NFDAS).
 P.IS does not control systems.
 It observes, attests, and proves.
 
 # Operational Model
 
 System operates normally
-P.IS continuously snapshots defined invariants
-Power instability detected
-Pre-outage state sealed and signed
-During outage, minimal state monitoring continues
-On recovery, post-outage state is captured
-Differences are correlated and flagged
+P.IS continuously snapshots defined invariants.
+Power instability detected.
+Pre-outage state sealed and signed.
+During outage, minimal state monitoring continues.
+On recovery, post-outage state is captured.
+Differences are correlated and flagged.
 The result is a verifiable timeline immune to after-the-fact manipulation.
 
 # Formal Invariants (Conceptual)
 
 P.IS enforces invariant logic of the form:
-If Power = Lost, then Integrity must remain unchanged
-If Authentication changed during outage, then flag violation
-If Configuration differs post-recovery, then require explanation
+If Power = Lost, then Integrity must remain unchanged.
+If Authentication changed during outage, then flag violation.
+If Configuration differs post-recovery, then require explanation.
 These invariants are modeled using discrete mathematics and implication logic, enabling formal reasoning about system behavior.
 
 # Integration with Other Systems
@@ -86,11 +73,11 @@ As a trusted source of ground-truth state transitions.
 
 # Use Cases
 
-Government departments and public institutions
-Defence and military communication environments
-Utilities and infrastructure operators
-Universities and examination systems
-Financial and regulatory bodies
+Government departments and public institutions.
+Defence and military communication environments.
+Utilities and infrastructure operators.
+Universities and examination systems.
+Financial and regulatory bodies.
 Anywhere power instability intersects with accountability risk.
 
 # Ethical & Security Notice
@@ -104,8 +91,8 @@ Unauthorized deployment or misuse is not permitted without explicit author appro
 # (Implementation code, where present, is illustrative only.)
 Conceptual Design – Academic & Evaluation Stage
 Further work may include:
-Formal truth tables for invariants
-Embedded firmware reference model
+Formal truth tables for invariants.
+Embedded firmware reference model.
 Secure key provisioning design.
 
 # Author
